@@ -1,0 +1,4 @@
+service:
+  pid: ~/.config/goclip/goclip.pid
+  log: ~/.config/goclip/goclip.log
+  dir:

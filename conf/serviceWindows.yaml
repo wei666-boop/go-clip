@@ -1,0 +1,4 @@
+service:
+  pid: goclip.pid
+  log: goclip.log
+  dir: ./../log/
