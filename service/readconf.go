@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/spf13/viper"
+	"goclip/conf"
 	"goclip/pkg"
 	"runtime"
 )
@@ -25,7 +26,7 @@ func ReadConfig() {
 			return
 		}
 	default:
-		pkg.TerminalError("unknow OS,please use windows or linux")
+		pkg.Prompt(conf.Mode, "unknow OS,please use windows or linux")
 	}
 
 }

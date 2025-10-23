@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"github.com/rs/zerolog"
 	"os"
-	"time"
 )
+
+//日志文件
 
 var Logger *zerolog.Logger
 
@@ -27,14 +28,4 @@ func WriteInfoLog(path string, info string) {
 
 func WriteErrorLog(path string, error string) {
 	CreateLog(path).Error().Msg(error)
-}
-
-func TerminalInfo(data string) {
-	timeNow := time.Now()
-	fmt.Fprintf(os.Stdout, "[%s]%s", timeNow, data)
-}
-
-func TerminalError(error string) {
-	timeNow := time.Now()
-	fmt.Fprintf(os.Stdout, "[%s]错误:%s", timeNow, error)
 }

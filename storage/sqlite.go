@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"goclip/model"
+	"goclip/pkg"
 	_ "modernc.org/sqlite"
 	"os"
 	"time"
@@ -38,7 +39,7 @@ func AddDate(content string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Fprintf(os.Stdout, "添加数据成功")
+	pkg.WriteInfoLog("service.log", "数据添加成功")
 	return nil
 }
 
@@ -95,6 +96,38 @@ func DeleteData(count int64) error {
 	}
 	if TErr = tx.Commit(); TErr != nil {
 		return TErr
+	}
+	return nil
+}
+
+func CleanData() error {
+	_, err := DB.Exec("delete from clip_history")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetData() []model.History {
+	rows, err := DB.Query(`select * from clip_history`)
+	var historyList []model.History
+	index := 0
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(historyList[index].Id, historyList[index].Content, historyList[index].Time)
+		index++
+	}
+	return historyList
+}
+
+func UpdateData(id int, content string, newtime time.Time) error {
+	_, err := DB.Exec(`update clip_history set content=? and create_at=? where id =? `, content, newtime, id)
+	if err != nil {
+		return err
 	}
 	return nil
 }
